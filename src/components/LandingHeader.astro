@@ -5,27 +5,33 @@ import LogoBuscar from "./LogoBuscar.astro";
 
 <header
     id="landing-header"
-    class="bg-white py-3 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-negro"
+    class="bg-white py-4 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-negro"
 >
-    <div class="flex flex-grow basis-0">
-        <a href="./"> <LogoPokemon /></a>
-
-        <div
-            class="m-0 mt-[3px] max-w-[600px] border-[2px] border-gray-300 rounded-xl"
-        >
-            <input type="text" placeholder="Buscar" />
-            <span><button class="border-b"><LogoBuscar /></button></span>
+    <div class="flex gap-3 text-lg">
+        <div class="flex flex-grow">
+            <a href="./"> <LogoPokemon /></a>
         </div>
+        <div>
+            <div
+                id="busqueda"
+                class="relative rounded shadow-sm flex items-center"
+            >
+                <input
+                    class="border border-gray-300 rounded py-2 px-5 pr-96 w-full focus:border-gray-400 focus:outline-none focus:shadow-md"
+                    type="text"
+                    placeholder="Buscar"
+                    id="buscador"
+                />
 
-        <!-- <div class="flex items-center gap-4 text-lg">
-            <input
-                id="buscar"
-                type="text"
-                placeholder="Nombre o Número"
-                class="border rounded py-2 px-32 border-gray-300"
-            />
-            <label for="buscar">Busca tu Pokémon</label>
-        </div> -->
+                <input
+                    type="image"
+                    id="submit-buscador"
+                    class="absolute right-0 top-0 translate-x-32 cursor-pointer
+                    h-full p-0 block w-1/2"
+                    src="buscar.svg"
+                />
+            </div>
+        </div>
     </div>
     <nav class="flex flex-grow basis-0 justify-end">
         <ul
