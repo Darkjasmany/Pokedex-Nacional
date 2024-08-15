@@ -1,46 +1,67 @@
 ---
-import LogoPokemon from "./LogoPokemon.astro";
-import LogoBuscar from "./LogoBuscar.astro";
+import LogoPokemon from "./logos/LogoPokemon.astro";
+import LogoBuscar from "./logos/LogoBuscar.astro";
 ---
 
 <header
     id="landing-header"
-    class="bg-white py-4 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-negro"
+    class="bg-white py-4 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-negro shadow-md relative"
 >
     <div class="flex gap-3 text-lg">
-        <div class="flex flex-grow">
+        <div class="flex flex-grow basis-0">
             <a href="./"> <LogoPokemon /></a>
         </div>
-        <div>
-            <div
+        <div class="flex items-center justify-center gap-3">
+            <form
+                action="#"
+                method="post"
                 id="busqueda"
                 class="relative rounded shadow-sm flex items-center"
             >
                 <input
-                    class="border border-gray-300 rounded py-2 px-5 pr-96 w-full focus:border-gray-400 focus:outline-none focus:shadow-md"
+                    class="border border-gray-300 rounded py-2 px-5 pr-32 w-full focus:border-gray-400 focus:outline-none focus:shadow-md"
                     type="text"
-                    placeholder="Buscar"
+                    placeholder="Buscar tu Pokémon"
                     id="buscador"
                 />
 
                 <input
                     type="image"
                     id="submit-buscador"
-                    class="absolute right-0 top-0 translate-x-32 cursor-pointer
-                    h-full p-0 block w-1/2"
+                    class="absolute cursor-pointer opacity-20 h-full p-0 right-3 top-0 block"
                     src="buscar.svg"
                 />
-            </div>
+            </form>
+            <nav>
+                <ul
+                    class="flex text-lg [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:font-medium [&>li>a]:text-current [&>li>a]:transition-colors [&>li>a]:duration-500"
+                >
+                    <li>
+                        <a href="#">Todos los Pokémon</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
     <nav class="flex flex-grow basis-0 justify-end">
         <ul
-            class="flex text-lg [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:font-medium [&>li>a]:text-current [&>li>a]:transition-colors [&>li>a]:duration-500"
+            class="flex text-lg [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:font-medium [&>li>a]:text-current [&>li>a]:transition-colors [&>li>a]:duration-500"
         >
-            <li class="hidden sm:block"><a href="#">Web Pokémon</a></li>
-            <li class="hidden sm:block"><a href="#">PokéWiki</a></li>
+            <li class="hidden sm:block">
+                <a href="https://www.pokemon.com/es" target="_blank"
+                    >Web Pokémon</a
+                >
+            </li>
+            <li class="hidden sm:block">
+                <a
+                    href="https://www.wikidex.net/wiki/Pok%C3%A9Wiki"
+                    target="_blank">PokéWiki</a
+                >
+            </li>
             <li class="hidden sm:block"><a href="#">Git Repo</a></li>
-            <li class="block 2xl:hidden"><a href="#" id="menu-btn">Menú</a></li>
+            <li class="block 2xl:hidden">
+                <a href="#" id="menu-btn">Menú</a>
+            </li>
         </ul>
     </nav>
 
