@@ -37,7 +37,7 @@ import SectionNav from "./SectionNav.astro";
                     <ul
                         class="flex text-sm [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:font-medium [&>li>a]:text-current [&>li>a]:transition-colors [&>li>a]:duration-500"
                     >
-                        <li class="backdrop">
+                        <li class="backdrop hidden lg:block">
                             <a href="#">Todos los Pokémon</a>
                         </li>
                     </ul>
@@ -48,21 +48,21 @@ import SectionNav from "./SectionNav.astro";
             <ul
                 class="flex text-sm [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:font-medium [&>li>a]:text-current [&>li>a]:transition-colors [&>li>a]:duration-500"
             >
-                <li class="backdrop hidden sm:block">
+                <li class="backdrop hidden xl:block">
                     <a href="https://www.pokemon.com/es" target="_blank"
                         >Web Pokémon</a
                     >
                 </li>
-                <li class="backdrop hidden sm:block">
+                <li class="backdrop hidden xl:block">
                     <a
                         href="https://www.wikidex.net/wiki/Pok%C3%A9Wiki"
                         target="_blank">PokéWiki</a
                     >
                 </li>
-                <li class="backdrop hidden sm:block">
+                <li class="backdrop hidden 2xl:block">
                     <a href="#">Git Repo</a>
                 </li>
-                <li class="backdrop block 2xl:hidden">
+                <li class="backdrop block xl:hidden">
                     <a href="#" id="menu-btn">Menú</a>
                 </li>
             </ul>
