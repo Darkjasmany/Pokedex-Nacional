@@ -54,3 +54,35 @@ Se filtran los Pokémon ya obtenidos en lugar de hacer nuevas solicitudes cuando
 # Formateo del ID: 
 Utiliza padStart para formatear el ID del Pokémon de manera más limpia.
 
+
+## Resumen del Código
+# Variables y Selección de Elementos:
+listaPokemon, btnHeaderTipos, btnTodos, y formulario se seleccionan para manipulación DOM.
+CANTIDADPOKEMON define cuántos Pokémon se van a cargar (151 en este caso).
+URL es la base de la API de Pokémon.
+
+# Carga Inicial:
+Cuando la ventana se carga (window.onload), se obtiene la data de Pokémon y se muestra en la página.
+Se añade un event listener al formulario para la búsqueda de Pokémon.
+
+# Función validarBusqueda:
+Previene el comportamiento por defecto del formulario.
+Filtra los Pokémon según el término de búsqueda.
+Muestra un mensaje si no se encuentra el Pokémon, y después de 3 segundos, vuelve a mostrar todos los Pokémon.
+
+# Función fetchPokemon:
+Realiza solicitudes a la API para obtener datos de los Pokémon y devuelve una lista de ellos.
+
+# Función mostrarPokemon:
+
+Limpia el HTML actual y luego muestra los Pokémon pasados a través de la función cardPokemon.
+
+# Función cardPokemon:
+Crea una tarjeta para cada Pokémon con información como ID, imagen, nombre, tipos, altura, y peso.
+Añade la tarjeta al contenedor listaPokemon.
+
+# Filtros de Tipos:
+Añade event listeners a los botones de tipo para filtrar los Pokémon según el tipo seleccionado.
+
+# Mostrar Todos los Pokémon:
+Añade un event listener al botón para mostrar todos los Pokémon de nuevo.
