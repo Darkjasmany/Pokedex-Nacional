@@ -1,6 +1,7 @@
 const listaPokemon = document.querySelector("#listaPokemon");
 const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
+
 let URL = "https://pokeapi.co/api/v2/pokemon/";
 const CANTIDADPOKEMON = 151;
 
@@ -116,3 +117,14 @@ btnHeaderTipos.forEach((btn) =>
         }
     })
 );
+
+btnTodos.addEventListener("click", () => {
+    listaPokemon.innerHTML = "";
+    for (let i = 1; i <= CANTIDADPOKEMON; i++) {
+        // concatena el indice al final de la url
+        fetch(URL + i)
+            .then((respuesta) => respuesta.json())
+            // .then((datos) => console.log(datos));
+            .then((data) => mostrarPokemon(data));
+    }
+});
