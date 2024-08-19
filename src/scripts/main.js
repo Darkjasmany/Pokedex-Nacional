@@ -1,7 +1,9 @@
 const listaPokemon = document.querySelector("#listaPokemon");
 const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
-const CANTIDADPOKEMON = 151;
+const formulario = document.querySelector("#busqueda");
+
+const CANTIDADPOKEMON = 12;
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
 let pokemonData = [];
@@ -11,9 +13,21 @@ window.onload = async () => {
         pokemonData = await fetchPokemon();
         // console.log(pokemonData);
         mostrarPokemon(pokemonData);
+
+        formulario.addEventListener("submit", validarBusqueda);
     } catch (error) {
         console.error("Error al cargar los Pokémon:", error);
     }
+};
+
+const validarBusqueda = async (e) => {
+    e.preventDefault();
+    const terminoBusqueda = document.querySelector("#buscador").value;
+
+    const resultadoBusqueda = pokemonData.filter(
+        (pokemon) => pokemon.name === terminoBusqueda
+    );
+    mostrarPokemon(resultadoBusqueda);
 };
 
 const fetchPokemon = async () => {
