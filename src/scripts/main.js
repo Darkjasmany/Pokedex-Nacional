@@ -2,40 +2,36 @@ const listaPokemon = document.querySelector("#listaPokemon");
 const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
 const CANTIDADPOKEMON = 151;
+const URL = "https://pokeapi.co/api/v2/pokemon/";
 
-window.onload = () => {
-    buscarPokemon();
-};
+let pokemonData = [];
 
-// for (let i = 1; i <= CANTIDADPOKEMON; i++) {
-//     // concatena el indice al final de la url
-//     fetch(URL + i)
-//         .then((respuesta) => respuesta.json())
-//         // .then((datos) => console.log(datos));
-//         .then((data) => mostrarPokemon(data));
-// }
-
-const buscarPokemon = async () => {
-    // const CANTIDADPOKEMON = 151;
-    const URL = "https://pokeapi.co/api/v2/pokemon/";
-
+window.onload = async () => {
     try {
-        for (let i = 1; i <= CANTIDADPOKEMON; i++) {
-            const respuesta = await fetch(URL + i);
-            const resultado = await respuesta.json();
-            mostrarPokemon(resultado);
-        }
+        pokemonData = await fetchPokemon();
+        // console.log(pokemonData);
+        mostrarPokemon(pokemonData);
     } catch (error) {
-        console.log(error);
+        console.error("Error al cargar los Pokémon:", error);
     }
 };
 
-const mostrarPokemon = (resultado) => {
-    // Limpio HTML previo
-    while (resultado.firstChild) {
-        resultado.removeChild(resultado.firstChild);
+const fetchPokemon = async () => {
+    const arrayPokemon = [];
+    for (let i = 1; i <= CANTIDADPOKEMON; i++) {
+        const url = `${URL}${i}`;
+        arrayPokemon.push(fetch(url).then((respuesta) => respuesta.json()));
     }
 
+    return await Promise.all(arrayPokemon); //con el promise almaceno todos los pokemon en el array y los retorno
+};
+
+const mostrarPokemon = (data) => {
+    limpiarHTML();
+    data.forEach((pokemon) => cardPokemon(pokemon));
+};
+
+const cardPokemon = (resultado) => {
     // Obtengo los tipos recorriendo el JSON y para obtener cada uno de los tipos creo un nuevo arreglo con los tipos y con el resultado de una vez creo los P
     let tipos = resultado.types.map(
         (type) => `<p class="bg-${type.type.name}">${type.type.name}</p> `
@@ -43,12 +39,7 @@ const mostrarPokemon = (resultado) => {
     tipos = tipos.join(""); // Uno los dos elementos
 
     // PARA AÑADIR NUMERO ANTES
-    let pokeId = resultado.id.toString();
-    if (pokeId.length === 1) {
-        pokeId = "00" + pokeId;
-    } else if (pokeId.length === 2) {
-        pokeId = "0" + pokeId;
-    }
+    let pokeId = resultado.id.toString().padStart(3, "0"); // PadStart para formatear ID
 
     const divPokemon = document.createElement("DIV");
     divPokemon.classList.add(
@@ -108,33 +99,20 @@ const mostrarPokemon = (resultado) => {
     listaPokemon.appendChild(divPokemon);
 };
 
-const limpiarHTML = () => {
-    listaPokemon.innerHTML = "";
-};
-
-// OBTENER EL ID PARA FILTRAL LA NAVEGACION
 btnHeaderTipos.forEach((btn) =>
     btn.addEventListener("click", (e) => {
-        const botonId = e.currentTarget.id; // Obtengo el id de cada uno de los botones que presiono
-        listaPokemon.innerHTML = "";
-
-        for (let i = 1; i <= CANTIDADPOKEMON; i++) {
-            // concatena el indice al final de la url
-            fetch(URL + i)
-                .then((respuesta) => respuesta.json())
-                // .then((datos) => console.log(datos));
-                .then((data) => {
-                    const tipos = data.types.map((type) => type.type.name);
-                    if (tipos.some((tipo) => tipo.includes(botonId))) {
-                        mostrarPokemon(data);
-                    }
-                });
-        }
+        const botonId = e.currentTarget.id;
+        const filteredPokemon = pokemonData.filter((pokemon) =>
+            pokemon.types.some((type) => type.type.name === botonId)
+        );
+        mostrarPokemon(filteredPokemon);
     })
 );
 
 btnTodos.addEventListener("click", () => {
-    limpiarHTML();
-
-    buscarPokemon();
+    mostrarPokemon(pokemonData);
 });
+
+const limpiarHTML = (data) => {
+    listaPokemon.innerHTML = "";
+};
