@@ -1,28 +1,49 @@
 const listaPokemon = document.querySelector("#listaPokemon");
 const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
-
-let URL = "https://pokeapi.co/api/v2/pokemon/";
 const CANTIDADPOKEMON = 151;
 
-for (let i = 1; i <= CANTIDADPOKEMON; i++) {
-    // concatena el indice al final de la url
-    fetch(URL + i)
-        .then((respuesta) => respuesta.json())
-        // .then((datos) => console.log(datos));
-        .then((data) => mostrarPokemon(data));
-}
+window.onload = () => {
+    buscarPokemon();
+};
 
-const mostrarPokemon = (data) => {
+// for (let i = 1; i <= CANTIDADPOKEMON; i++) {
+//     // concatena el indice al final de la url
+//     fetch(URL + i)
+//         .then((respuesta) => respuesta.json())
+//         // .then((datos) => console.log(datos));
+//         .then((data) => mostrarPokemon(data));
+// }
+
+const buscarPokemon = async () => {
+    // const CANTIDADPOKEMON = 151;
+    const URL = "https://pokeapi.co/api/v2/pokemon/";
+
+    try {
+        for (let i = 1; i <= CANTIDADPOKEMON; i++) {
+            const respuesta = await fetch(URL + i);
+            const resultado = await respuesta.json();
+            mostrarPokemon(resultado);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const mostrarPokemon = (resultado) => {
+    // Limpio HTML previo
+    while (resultado.firstChild) {
+        resultado.removeChild(resultado.firstChild);
+    }
+
     // Obtengo los tipos recorriendo el JSON y para obtener cada uno de los tipos creo un nuevo arreglo con los tipos y con el resultado de una vez creo los P
-    let tipos = data.types.map(
+    let tipos = resultado.types.map(
         (type) => `<p class="bg-${type.type.name}">${type.type.name}</p> `
     );
     tipos = tipos.join(""); // Uno los dos elementos
-    // console.log(tipos);
 
     // PARA AÑADIR NUMERO ANTES
-    let pokeId = data.id.toString();
+    let pokeId = resultado.id.toString();
     if (pokeId.length === 1) {
         pokeId = "00" + pokeId;
     } else if (pokeId.length === 2) {
@@ -50,8 +71,8 @@ const mostrarPokemon = (data) => {
                 <div class="pokemon-imagen ps-4 flex justify-center">
                     <img
                         class="w-full max-w-24"
-                        src="${data.sprites.other["official-artwork"].front_default}"
-                        alt="${data.name}"
+                        src="${resultado.sprites.other["official-artwork"].front_default}"
+                        alt="${resultado.name}"
                     />
                 </div>
                 <div
@@ -66,7 +87,7 @@ const mostrarPokemon = (data) => {
                             #${pokeId}
                         </p>
                         <h2 class="pokemon-nombre text-2xl font-bold">
-                            ${data.name}
+                            ${resultado.name}
                         </h2>
                     </div>
                     <div
@@ -78,8 +99,8 @@ const mostrarPokemon = (data) => {
                     <div
                         class="pokemon-stat flex gap-4 text-sm [&>p]:bg-gray-100 [&>p]:py-1 [&>p]:px-2 [&>p]:rounded-[100vmax]"
                     >
-                        <p class="stat">${data.height} M</p>
-                        <p class="stat">${data.weight} KG</p>
+                        <p class="stat">${resultado.height} M</p>
+                        <p class="stat">${resultado.weight} KG</p>
                     </div>
                 </div>
 `;
@@ -87,17 +108,11 @@ const mostrarPokemon = (data) => {
     listaPokemon.appendChild(divPokemon);
 };
 
-// console.log(btnHeaderTipos);
-// console.log(btnTodos);
+const limpiarHTML = () => {
+    listaPokemon.innerHTML = "";
+};
 
-// if (btnTodos) {
-//     fetch(URL + i)
-//         .then((respuesta) => respuesta.json())
-//         // .then((datos) => console.log(datos));
-//         .then((data) => mostrarPokemon(data));
-// }
-
-// OBTENER EL ID PARA FILTRAL LA NEVAGCION
+// OBTENER EL ID PARA FILTRAL LA NAVEGACION
 btnHeaderTipos.forEach((btn) =>
     btn.addEventListener("click", (e) => {
         const botonId = e.currentTarget.id; // Obtengo el id de cada uno de los botones que presiono
@@ -119,12 +134,7 @@ btnHeaderTipos.forEach((btn) =>
 );
 
 btnTodos.addEventListener("click", () => {
-    listaPokemon.innerHTML = "";
-    for (let i = 1; i <= CANTIDADPOKEMON; i++) {
-        // concatena el indice al final de la url
-        fetch(URL + i)
-            .then((respuesta) => respuesta.json())
-            // .then((datos) => console.log(datos));
-            .then((data) => mostrarPokemon(data));
-    }
+    limpiarHTML();
+
+    buscarPokemon();
 });
