@@ -3,7 +3,7 @@ const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
 const formulario = document.querySelector("#busqueda");
 
-const CANTIDADPOKEMON = 15;
+const CANTIDADPOKEMON = 25;
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
 let pokemonData = [];

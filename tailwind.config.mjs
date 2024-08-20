@@ -6,6 +6,7 @@ export default {
             sans: ["Rubik, system-ui"],
             // sans: ["Gotham SSm A, sans-serif"],
         },
+
         extend: {
             colors: {
                 normal: "#A8A878",
@@ -27,6 +28,10 @@ export default {
                 steel: "#B8B8D0",
                 fairy: "#F0B6BC",
                 negro: "#111111",
+            },
+            screens: {
+                desktop: "1474px",
+                // => @media (min-width: 1280px) { ... }
             },
         },
     },
