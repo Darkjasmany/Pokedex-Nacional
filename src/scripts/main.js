@@ -4,21 +4,26 @@ const btnTodos = document.querySelector("#ver-todos");
 const formulario = document.querySelector("#busqueda");
 const spinner = document.querySelector("#spinner");
 
-const CANTIDADPOKEMON = 12;
+const CANTIDADPOKEMON = 1000;
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
 let pokemonData = [];
 
+// Función principal que se ejecuta cuando la ventana se carga
 window.onload = async () => {
     try {
+        spinnerEvent(true); // Muestra el spinner
         pokemonData = await fetchPokemon();
         mostrarPokemon(pokemonData);
         formulario.addEventListener("submit", validarBusqueda);
     } catch (error) {
         console.error("Error al cargar los Pokémon:", error);
+    } finally {
+        spinnerEvent(false); // Oculta el spinner
     }
 };
 
+// Valida y procesa la búsqueda del usuario
 const validarBusqueda = async (e) => {
     e.preventDefault();
     const terminoBusqueda = document
@@ -44,6 +49,7 @@ const validarBusqueda = async (e) => {
     }
 };
 
+// Obtiene los datos de los Pokémon desde la API
 const fetchPokemon = async () => {
     // Manejo de Errores: Se ha añadido un bloque try-catch en fetchPokemon para manejar errores.
 
@@ -60,6 +66,7 @@ const fetchPokemon = async () => {
     }
 };
 
+// Muestra los Pokémon en la interfaz
 const mostrarPokemon = (data) => {
     // Optimización del Renderizado:En lugar de crear y añadir elementos uno por uno, puedes usar document.createDocumentFragment() para optimizar el rendimiento cuando añades múltiples elementos al DOM.
 
@@ -73,6 +80,7 @@ const mostrarPokemon = (data) => {
     listaPokemon.appendChild(fragment);
 };
 
+// Crea una tarjeta por cada Pokémon
 const createCardPokemon = (resultado) => {
     // Obtengo los tipos recorriendo el JSON y para obtener cada uno de los tipos creo un nuevo arreglo con los tipos y con el resultado de una vez creo los P
     let tipos = resultado.types.map(
@@ -142,6 +150,7 @@ const createCardPokemon = (resultado) => {
     return divPokemon;
 };
 
+// Muestra un mensaje cuando no se encuentra el Pokémon
 const noHayPokemon = () => {
     listaPokemon.classList.remove("grid");
     listaPokemon.innerHTML = `<p class="uppercase text-center text-2xl font-bold my-28 text-negro">
@@ -149,21 +158,23 @@ const noHayPokemon = () => {
             </p>`;
 };
 
+// Limpia el HTML de la lista de Pokémon
 const limpiarHTML = () => {
     listaPokemon.innerHTML = "";
 };
 
-const spinnerEvent = () => {
-    spinner.classList.add("flex");
-    spinner.classList.remove("hidden");
-    setTimeout(() => {
+// Muestra y oculta el spinner de carga
+const spinnerEvent = (show = true) => {
+    if (show) {
+        spinner.classList.add("flex");
+        spinner.classList.remove("hidden");
+    } else {
         spinner.classList.remove("flex");
         spinner.classList.add("hidden");
-
-        limpiarHTML();
-    }, 3000);
+    }
 };
 
+// Agrega los eventos de filtro por tipo de Pokémon
 btnHeaderTipos.forEach((btn) =>
     btn.addEventListener("click", (e) => {
         const botonId = e.currentTarget.id;
@@ -174,6 +185,7 @@ btnHeaderTipos.forEach((btn) =>
     })
 );
 
+// Agrega el evento para mostrar todos los Pokémon
 btnTodos.addEventListener("click", () => {
     mostrarPokemon(pokemonData);
 });
