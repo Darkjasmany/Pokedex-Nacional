@@ -1,7 +1,8 @@
 const listaPokemon = document.querySelector("#listaPokemon");
 const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
-const formulario = document.querySelector("#busqueda");
+// const formulario = document.querySelector("#busqueda");
+const buscador = document.querySelector("#buscador");
 const spinner = document.querySelector("#spinner");
 
 const CANTIDADPOKEMON = 1000;
@@ -16,7 +17,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         spinnerEvent(true); // Muestra el spinner
         pokemonData = await fetchPokemon();
         mostrarPokemon(pokemonData);
-        formulario.addEventListener("submit", validarBusqueda);
+        // busqueda al presionar submit
+        // formulario.addEventListener("submit", validarBusqueda);
+        //búsqueda se actualice en tiempo real a medida que el usuario escribe
+        buscador.addEventListener("input", validarBusqueda);
     } catch (error) {
         console.error("Error al cargar los Pokémon:", error);
     } finally {
@@ -37,6 +41,7 @@ const validarBusqueda = async (e) => {
         return;
     }
 
+    // Buscar coincidencias parciales
     const resultadoBusqueda = pokemonData.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(terminoBusqueda)
     );
