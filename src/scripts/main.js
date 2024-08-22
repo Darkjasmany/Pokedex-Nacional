@@ -10,7 +10,8 @@ const URL = "https://pokeapi.co/api/v2/pokemon/";
 let pokemonData = [];
 
 // Función principal que se ejecuta cuando la ventana se carga
-window.onload = async () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
     try {
         spinnerEvent(true); // Muestra el spinner
         pokemonData = await fetchPokemon();
@@ -21,31 +22,33 @@ window.onload = async () => {
     } finally {
         spinnerEvent(false); // Oculta el spinner
     }
-};
+});
 
 // Valida y procesa la búsqueda del usuario
 const validarBusqueda = async (e) => {
     e.preventDefault();
     const terminoBusqueda = document
         .querySelector("#buscador")
-        .value.toLowerCase();
+        .value.toLowerCase()
+        .trim();
+
     if (terminoBusqueda.trim() === "") {
         mostrarPokemon(pokemonData);
         return;
-    } else {
-        const resultadoBusqueda = pokemonData.filter(
-            (pokemon) => pokemon.name.toLowerCase() === terminoBusqueda
-        );
+    }
 
-        if (resultadoBusqueda.length === 0) {
-            noHayPokemon();
-            setTimeout(() => {
-                listaPokemon.classList.add("grid");
-                mostrarPokemon(pokemonData);
-            }, 3000);
-        } else {
-            mostrarPokemon(resultadoBusqueda);
-        }
+    const resultadoBusqueda = pokemonData.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(terminoBusqueda)
+    );
+
+    if (resultadoBusqueda.length === 0) {
+        noHayPokemon();
+        setTimeout(() => {
+            listaPokemon.classList.add("grid");
+            mostrarPokemon(pokemonData);
+        }, 3000);
+    } else {
+        mostrarPokemon(resultadoBusqueda);
     }
 };
 
@@ -165,13 +168,8 @@ const limpiarHTML = () => {
 
 // Muestra y oculta el spinner de carga
 const spinnerEvent = (show = true) => {
-    if (show) {
-        spinner.classList.add("flex");
-        spinner.classList.remove("hidden");
-    } else {
-        spinner.classList.remove("flex");
-        spinner.classList.add("hidden");
-    }
+    spinner.classList.toggle("flex", show);
+    spinner.classList.toggle("hidden", !show);
 };
 
 // Agrega los eventos de filtro por tipo de Pokémon
