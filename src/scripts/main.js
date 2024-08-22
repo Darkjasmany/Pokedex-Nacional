@@ -2,8 +2,9 @@ const listaPokemon = document.querySelector("#listaPokemon");
 const btnHeaderTipos = document.querySelectorAll("#navegacion-botones button");
 const btnTodos = document.querySelector("#ver-todos");
 const formulario = document.querySelector("#busqueda");
+const spinner = document.querySelector("#spinner");
 
-const CANTIDADPOKEMON = 25;
+const CANTIDADPOKEMON = 12;
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
 let pokemonData = [];
@@ -45,6 +46,7 @@ const validarBusqueda = async (e) => {
 
 const fetchPokemon = async () => {
     // Manejo de Errores: Se ha añadido un bloque try-catch en fetchPokemon para manejar errores.
+
     try {
         const arrayPokemon = [];
         for (let i = 1; i <= CANTIDADPOKEMON; i++) {
@@ -149,6 +151,17 @@ const noHayPokemon = () => {
 
 const limpiarHTML = () => {
     listaPokemon.innerHTML = "";
+};
+
+const spinnerEvent = () => {
+    spinner.classList.add("flex");
+    spinner.classList.remove("hidden");
+    setTimeout(() => {
+        spinner.classList.remove("flex");
+        spinner.classList.add("hidden");
+
+        limpiarHTML();
+    }, 3000);
 };
 
 btnHeaderTipos.forEach((btn) =>
