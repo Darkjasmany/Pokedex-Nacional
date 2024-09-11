@@ -5,7 +5,7 @@ const btnTodos = document.querySelector("#ver-todos");
 const buscador = document.querySelector("#buscador");
 const spinner = document.querySelector("#spinner");
 
-const CANTIDADPOKEMON = 1000;
+const CANTIDADPOKEMON = 150;
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
 let pokemonData = [];
@@ -79,7 +79,6 @@ const mostrarPokemon = (data) => {
     // Optimización del Renderizado:En lugar de crear y añadir elementos uno por uno, puedes usar document.createDocumentFragment() para optimizar el rendimiento cuando añades múltiples elementos al DOM.
 
     limpiarHTML();
-    // data.forEach((pokemon) => cardPokemon(pokemon));
     const fragment = document.createDocumentFragment();
     data.forEach((pokemon) => {
         fragment.appendChild(createCardPokemon(pokemon));
